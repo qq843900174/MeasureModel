@@ -32,7 +32,7 @@ namespace magnet_inspection
         }
 
         //输出参数结构
-        public class OutputLocateparam
+        public class OutputLocateParam
         {
             public int ErrorCode;//错误代码
             public string ExceptionString;//Halcon异常错误信息

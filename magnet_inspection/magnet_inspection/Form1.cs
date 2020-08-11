@@ -76,7 +76,7 @@ namespace magnet_inspection
         {
             
             bool ok = false;
-            ok = my_Algorithm.GetMaterialAngleAndOffset_Magnet();
+            //ok = my_Algorithm.GetMaterialAngleAndOffset_Magnet();
             return;
         }
 

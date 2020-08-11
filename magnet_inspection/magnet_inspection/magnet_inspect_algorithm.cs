@@ -12,7 +12,7 @@ namespace magnet_inspection
     public class magnet_inspect_algorithm : AlgorithmLib
     {
         
-        public bool GetMaterialAngleAndOffset_Magnet(InputLocateParam IptParam, ref OutputLocateparam OptParam)
+        public bool GetMaterialAngleAndOffset_Magnet(InputLocateParam IptParam, ref OutputLocateParam OptParam)
         {
             //计算时间，开始时间。
             DateTime timeStart = System.DateTime.Now;
