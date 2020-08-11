@@ -40,7 +40,12 @@
             this.button_Open_Picture = new System.Windows.Forms.Button();
             this.button_Input_Set = new System.Windows.Forms.Button();
             this.hWindowControl1 = new HalconDotNet.HWindowControl();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Threshold)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_Do
@@ -123,7 +128,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 15);
             this.label2.TabIndex = 10;
-            this.label2.Text = "输出参数：";
+            this.label2.Text = "输出结果：";
             // 
             // button_Open_Picture
             // 
@@ -150,18 +155,49 @@
             this.hWindowControl1.BackColor = System.Drawing.Color.Black;
             this.hWindowControl1.BorderColor = System.Drawing.Color.Black;
             this.hWindowControl1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.hWindowControl1.Location = new System.Drawing.Point(13, 9);
+            this.hWindowControl1.Location = new System.Drawing.Point(0, 0);
             this.hWindowControl1.Name = "hWindowControl1";
             this.hWindowControl1.Size = new System.Drawing.Size(640, 480);
             this.hWindowControl1.TabIndex = 13;
             this.hWindowControl1.WindowSize = new System.Drawing.Size(640, 480);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(653, 512);
+            this.tabControl1.TabIndex = 14;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.hWindowControl1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(645, 483);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(667, 464);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 619);
-            this.Controls.Add(this.hWindowControl1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button_Input_Set);
             this.Controls.Add(this.button_Open_Picture);
             this.Controls.Add(this.label2);
@@ -176,6 +212,8 @@
             this.Name = "Form1";
             this.Text = "Magnet_inspect";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Threshold)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,6 +232,9 @@
         private System.Windows.Forms.Button button_Open_Picture;
         private System.Windows.Forms.Button button_Input_Set;
         private HalconDotNet.HWindowControl hWindowControl1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
