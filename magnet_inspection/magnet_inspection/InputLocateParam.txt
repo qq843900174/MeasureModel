@@ -1,0 +1,13 @@
+﻿<InputParam>
+  <ThresholdMin>0</ThresholdMin>
+  <ThresholdMax>255</ThresholdMax>
+  <ImageW>640</ImageW>
+  <ImageH>480</ImageH>
+  <LeftPt>30</LeftPt>
+  <TopPt>40</TopPt>
+  <RightPt>420</RightPt>
+  <BottomPt>600</BottomPt>
+  <MaterialW>169</MaterialW>
+  <MaterialH>158</MaterialH>
+</InputParam>
+
