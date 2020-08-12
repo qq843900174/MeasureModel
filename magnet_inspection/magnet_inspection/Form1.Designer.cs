@@ -42,31 +42,31 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ModelMatch_checkBox = new System.Windows.Forms.CheckBox();
-            this.ModelAngle_textBox = new System.Windows.Forms.TextBox();
-            this.labelModelAngle = new System.Windows.Forms.Label();
-            this.ModelColumn_textBox = new System.Windows.Forms.TextBox();
-            this.labelModelColumn = new System.Windows.Forms.Label();
-            this.ModelRow_textBox = new System.Windows.Forms.TextBox();
-            this.labelModelRow = new System.Windows.Forms.Label();
             this.buttonTestModel = new System.Windows.Forms.Button();
             this.buttonSaveModel = new System.Windows.Forms.Button();
             this.buttonCreateModel = new System.Windows.Forms.Button();
             this.buttonSetModel = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.buttonDrawCircle2 = new System.Windows.Forms.Button();
+            this.buttonDrawLine2 = new System.Windows.Forms.Button();
             this.buttonDrawCircle1 = new System.Windows.Forms.Button();
             this.Metrology_checkBox = new System.Windows.Forms.CheckBox();
             this.buttonTestMetrology = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.buttonCreateMetrology = new System.Windows.Forms.Button();
             this.buttonDrawLine1 = new System.Windows.Forms.Button();
+            this.ModelAngle_textBox = new System.Windows.Forms.TextBox();
+            this.labelModelAngle = new System.Windows.Forms.Label();
+            this.ModelColumn_textBox = new System.Windows.Forms.TextBox();
+            this.labelModelColumn = new System.Windows.Forms.Label();
+            this.ModelRow_textBox = new System.Windows.Forms.TextBox();
+            this.labelModelRow = new System.Windows.Forms.Label();
             this.buttonAcqGrab = new System.Windows.Forms.Button();
             this.buttonStopAcqGrab = new System.Windows.Forms.Button();
-            this.buttonDrawCircle2 = new System.Windows.Forms.Button();
-            this.buttonDrawLine2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxResultLog = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Threshold)).BeginInit();
@@ -219,60 +219,6 @@
             this.ModelMatch_checkBox.Text = "模板匹配使能";
             this.ModelMatch_checkBox.UseVisualStyleBackColor = true;
             // 
-            // ModelAngle_textBox
-            // 
-            this.ModelAngle_textBox.Location = new System.Drawing.Point(775, 360);
-            this.ModelAngle_textBox.Margin = new System.Windows.Forms.Padding(4);
-            this.ModelAngle_textBox.Name = "ModelAngle_textBox";
-            this.ModelAngle_textBox.Size = new System.Drawing.Size(73, 25);
-            this.ModelAngle_textBox.TabIndex = 30;
-            // 
-            // labelModelAngle
-            // 
-            this.labelModelAngle.AutoSize = true;
-            this.labelModelAngle.Location = new System.Drawing.Point(718, 363);
-            this.labelModelAngle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelModelAngle.Name = "labelModelAngle";
-            this.labelModelAngle.Size = new System.Drawing.Size(55, 15);
-            this.labelModelAngle.TabIndex = 29;
-            this.labelModelAngle.Text = "Angle:";
-            // 
-            // ModelColumn_textBox
-            // 
-            this.ModelColumn_textBox.Location = new System.Drawing.Point(775, 320);
-            this.ModelColumn_textBox.Margin = new System.Windows.Forms.Padding(4);
-            this.ModelColumn_textBox.Name = "ModelColumn_textBox";
-            this.ModelColumn_textBox.Size = new System.Drawing.Size(73, 25);
-            this.ModelColumn_textBox.TabIndex = 28;
-            // 
-            // labelModelColumn
-            // 
-            this.labelModelColumn.AutoSize = true;
-            this.labelModelColumn.Location = new System.Drawing.Point(710, 323);
-            this.labelModelColumn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelModelColumn.Name = "labelModelColumn";
-            this.labelModelColumn.Size = new System.Drawing.Size(63, 15);
-            this.labelModelColumn.TabIndex = 27;
-            this.labelModelColumn.Text = "Column:";
-            // 
-            // ModelRow_textBox
-            // 
-            this.ModelRow_textBox.Location = new System.Drawing.Point(775, 280);
-            this.ModelRow_textBox.Margin = new System.Windows.Forms.Padding(4);
-            this.ModelRow_textBox.Name = "ModelRow_textBox";
-            this.ModelRow_textBox.Size = new System.Drawing.Size(73, 25);
-            this.ModelRow_textBox.TabIndex = 26;
-            // 
-            // labelModelRow
-            // 
-            this.labelModelRow.AutoSize = true;
-            this.labelModelRow.Location = new System.Drawing.Point(734, 283);
-            this.labelModelRow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelModelRow.Name = "labelModelRow";
-            this.labelModelRow.Size = new System.Drawing.Size(39, 15);
-            this.labelModelRow.TabIndex = 25;
-            this.labelModelRow.Text = "Row:";
-            // 
             // buttonTestModel
             // 
             this.buttonTestModel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
@@ -342,6 +288,74 @@
             this.tabPage3.Text = "创建测量工具";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button1.Location = new System.Drawing.Point(371, 266);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(179, 58);
+            this.button1.TabIndex = 49;
+            this.button1.Text = "测量圆或圆弧2参数";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.button2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button2.Location = new System.Drawing.Point(369, 110);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(179, 58);
+            this.button2.TabIndex = 48;
+            this.button2.Text = "测量直线2参数";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.button3.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button3.Location = new System.Drawing.Point(371, 188);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(179, 58);
+            this.button3.TabIndex = 47;
+            this.button3.Text = "测量圆或圆弧1参数";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.button4.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.button4.Location = new System.Drawing.Point(369, 32);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(179, 58);
+            this.button4.TabIndex = 46;
+            this.button4.Text = "测量直线1参数";
+            this.button4.UseVisualStyleBackColor = false;
+            // 
+            // buttonDrawCircle2
+            // 
+            this.buttonDrawCircle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.buttonDrawCircle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.buttonDrawCircle2.Location = new System.Drawing.Point(114, 266);
+            this.buttonDrawCircle2.Name = "buttonDrawCircle2";
+            this.buttonDrawCircle2.Size = new System.Drawing.Size(179, 58);
+            this.buttonDrawCircle2.TabIndex = 45;
+            this.buttonDrawCircle2.Text = "测量圆或圆弧2";
+            this.buttonDrawCircle2.UseVisualStyleBackColor = false;
+            this.buttonDrawCircle2.Click += new System.EventHandler(this.buttonDrawCircle2_Click);
+            // 
+            // buttonDrawLine2
+            // 
+            this.buttonDrawLine2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.buttonDrawLine2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.buttonDrawLine2.Location = new System.Drawing.Point(112, 110);
+            this.buttonDrawLine2.Name = "buttonDrawLine2";
+            this.buttonDrawLine2.Size = new System.Drawing.Size(179, 58);
+            this.buttonDrawLine2.TabIndex = 44;
+            this.buttonDrawLine2.Text = "测量直线2";
+            this.buttonDrawLine2.UseVisualStyleBackColor = false;
+            this.buttonDrawLine2.Click += new System.EventHandler(this.buttonDrawLine2_Click);
+            // 
             // buttonDrawCircle1
             // 
             this.buttonDrawCircle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
@@ -352,6 +366,7 @@
             this.buttonDrawCircle1.TabIndex = 43;
             this.buttonDrawCircle1.Text = "测量圆或圆弧1";
             this.buttonDrawCircle1.UseVisualStyleBackColor = false;
+            this.buttonDrawCircle1.Click += new System.EventHandler(this.buttonDrawCircle1_Click);
             // 
             // Metrology_checkBox
             // 
@@ -409,6 +424,60 @@
             this.buttonDrawLine1.UseVisualStyleBackColor = false;
             this.buttonDrawLine1.Click += new System.EventHandler(this.buttonDrawLine1_Click);
             // 
+            // ModelAngle_textBox
+            // 
+            this.ModelAngle_textBox.Location = new System.Drawing.Point(775, 360);
+            this.ModelAngle_textBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ModelAngle_textBox.Name = "ModelAngle_textBox";
+            this.ModelAngle_textBox.Size = new System.Drawing.Size(73, 25);
+            this.ModelAngle_textBox.TabIndex = 30;
+            // 
+            // labelModelAngle
+            // 
+            this.labelModelAngle.AutoSize = true;
+            this.labelModelAngle.Location = new System.Drawing.Point(718, 363);
+            this.labelModelAngle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelModelAngle.Name = "labelModelAngle";
+            this.labelModelAngle.Size = new System.Drawing.Size(55, 15);
+            this.labelModelAngle.TabIndex = 29;
+            this.labelModelAngle.Text = "Angle:";
+            // 
+            // ModelColumn_textBox
+            // 
+            this.ModelColumn_textBox.Location = new System.Drawing.Point(775, 320);
+            this.ModelColumn_textBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ModelColumn_textBox.Name = "ModelColumn_textBox";
+            this.ModelColumn_textBox.Size = new System.Drawing.Size(73, 25);
+            this.ModelColumn_textBox.TabIndex = 28;
+            // 
+            // labelModelColumn
+            // 
+            this.labelModelColumn.AutoSize = true;
+            this.labelModelColumn.Location = new System.Drawing.Point(710, 323);
+            this.labelModelColumn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelModelColumn.Name = "labelModelColumn";
+            this.labelModelColumn.Size = new System.Drawing.Size(63, 15);
+            this.labelModelColumn.TabIndex = 27;
+            this.labelModelColumn.Text = "Column:";
+            // 
+            // ModelRow_textBox
+            // 
+            this.ModelRow_textBox.Location = new System.Drawing.Point(775, 280);
+            this.ModelRow_textBox.Margin = new System.Windows.Forms.Padding(4);
+            this.ModelRow_textBox.Name = "ModelRow_textBox";
+            this.ModelRow_textBox.Size = new System.Drawing.Size(73, 25);
+            this.ModelRow_textBox.TabIndex = 26;
+            // 
+            // labelModelRow
+            // 
+            this.labelModelRow.AutoSize = true;
+            this.labelModelRow.Location = new System.Drawing.Point(734, 283);
+            this.labelModelRow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelModelRow.Name = "labelModelRow";
+            this.labelModelRow.Size = new System.Drawing.Size(39, 15);
+            this.labelModelRow.TabIndex = 25;
+            this.labelModelRow.Text = "Row:";
+            // 
             // buttonAcqGrab
             // 
             this.buttonAcqGrab.Location = new System.Drawing.Point(678, 25);
@@ -426,72 +495,6 @@
             this.buttonStopAcqGrab.TabIndex = 16;
             this.buttonStopAcqGrab.Text = "停止采集图像";
             this.buttonStopAcqGrab.UseVisualStyleBackColor = true;
-            // 
-            // buttonDrawCircle2
-            // 
-            this.buttonDrawCircle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.buttonDrawCircle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonDrawCircle2.Location = new System.Drawing.Point(114, 266);
-            this.buttonDrawCircle2.Name = "buttonDrawCircle2";
-            this.buttonDrawCircle2.Size = new System.Drawing.Size(179, 58);
-            this.buttonDrawCircle2.TabIndex = 45;
-            this.buttonDrawCircle2.Text = "测量圆或圆弧2";
-            this.buttonDrawCircle2.UseVisualStyleBackColor = false;
-            // 
-            // buttonDrawLine2
-            // 
-            this.buttonDrawLine2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.buttonDrawLine2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonDrawLine2.Location = new System.Drawing.Point(112, 110);
-            this.buttonDrawLine2.Name = "buttonDrawLine2";
-            this.buttonDrawLine2.Size = new System.Drawing.Size(179, 58);
-            this.buttonDrawLine2.TabIndex = 44;
-            this.buttonDrawLine2.Text = "测量直线2";
-            this.buttonDrawLine2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.button1.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.button1.Location = new System.Drawing.Point(371, 266);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(179, 58);
-            this.button1.TabIndex = 49;
-            this.button1.Text = "测量圆或圆弧2参数";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.button2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.button2.Location = new System.Drawing.Point(369, 110);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(179, 58);
-            this.button2.TabIndex = 48;
-            this.button2.Text = "测量直线2参数";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.button3.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.button3.Location = new System.Drawing.Point(371, 188);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(179, 58);
-            this.button3.TabIndex = 47;
-            this.button3.Text = "测量圆或圆弧1参数";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.button4.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.button4.Location = new System.Drawing.Point(369, 32);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(179, 58);
-            this.button4.TabIndex = 46;
-            this.button4.Text = "测量直线1参数";
-            this.button4.UseVisualStyleBackColor = false;
             // 
             // label3
             // 

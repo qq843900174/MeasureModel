@@ -102,11 +102,10 @@ namespace magnet_inspection
             }
         }
 
-        
-
         #region 检测按钮
 
         public const double hv_pi = 3.1415926535;
+
         private void button_Do_Click(object sender, EventArgs e)
         {
             
@@ -415,6 +414,72 @@ namespace magnet_inspection
             HOperatorSet.SetColor(hwindow, "green");
             HOperatorSet.GenRegionLine(out Line1, L1StartRowDraw, L1StartColumnDraw, L1EndRowDraw, L1EndColumnDraw);
             HOperatorSet.DispObj(Line1, hwindow);
+        }
+
+        //测量直线2
+        private void buttonDrawLine2_Click(object sender, EventArgs e)
+        {
+            this.tabControl1.SelectedIndex = 0;
+            //hWindowControl1.HalconWindow.ClearWindow();
+            //HOperatorSet.DispObj(getImage, hwindow);
+            hWindowControl1.Focus();
+            HOperatorSet.SetLineWidth(hwindow, 2);
+            HOperatorSet.SetDraw(hwindow, "margin");
+
+            HObject Line2;
+            HOperatorSet.GenEmptyObj(out Line2);
+            Line2.Dispose();
+
+            HOperatorSet.SetColor(hwindow, "yellow");
+            HOperatorSet.DrawLineMod(hwindow, ImageHeight / 2 - 50, ImageWidth / 2 , ImageHeight / 2 + 50, ImageWidth / 2,
+                                            out L2StartRowDraw, out L2StartColumnDraw, out L2EndRowDraw, out L2EndColumnDraw);
+            HOperatorSet.SetColor(hwindow, "green");
+            HOperatorSet.GenRegionLine(out Line2, L2StartRowDraw, L2StartColumnDraw, L2EndRowDraw, L2EndColumnDraw);
+            HOperatorSet.DispObj(Line2, hwindow);
+        }
+
+        //测量圆或圆弧1
+        private void buttonDrawCircle1_Click(object sender, EventArgs e)
+        {
+            this.tabControl1.SelectedIndex = 0;
+            //hWindowControl1.HalconWindow.ClearWindow();
+            //HOperatorSet.DispObj(getImage, hwindow);
+            hWindowControl1.Focus();
+            HOperatorSet.SetLineWidth(hwindow, 2);
+            HOperatorSet.SetDraw(hwindow, "margin");
+
+            HObject Circle1;
+            HOperatorSet.GenEmptyObj(out Circle1);
+            Circle1.Dispose();
+
+            HOperatorSet.SetColor(hwindow, "yellow");
+            HOperatorSet.DrawCircleMod(hwindow, ImageHeight / 2 , ImageWidth / 2, 200,
+                                            out Circle1RowDraw, out Circle1ColumnDraw, out Circle1RadiusDraw);
+            HOperatorSet.SetColor(hwindow, "green");
+            HOperatorSet.GenCircle(out Circle1, Circle1RowDraw, Circle1ColumnDraw, Circle1RadiusDraw);
+            HOperatorSet.DispObj(Circle1, hwindow);
+        }
+
+        //测量圆或圆弧2
+        private void buttonDrawCircle2_Click(object sender, EventArgs e)
+        {
+            this.tabControl1.SelectedIndex = 0;
+            //hWindowControl1.HalconWindow.ClearWindow();
+            //HOperatorSet.DispObj(getImage, hwindow);
+            hWindowControl1.Focus();
+            HOperatorSet.SetLineWidth(hwindow, 2);
+            HOperatorSet.SetDraw(hwindow, "margin");
+
+            HObject Circle2;
+            HOperatorSet.GenEmptyObj(out Circle2);
+            Circle2.Dispose();
+
+            HOperatorSet.SetColor(hwindow, "yellow");
+            HOperatorSet.DrawCircleMod(hwindow, ImageHeight / 2, ImageWidth / 2, 200,
+                                            out Circle2RowDraw, out Circle2ColumnDraw, out Circle2RadiusDraw);
+            HOperatorSet.SetColor(hwindow, "green");
+            HOperatorSet.GenCircle(out Circle2, Circle2RowDraw, Circle2ColumnDraw, Circle2RadiusDraw);
+            HOperatorSet.DispObj(Circle2, hwindow);
         }
     }
 }
