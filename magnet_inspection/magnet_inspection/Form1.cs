@@ -19,6 +19,19 @@ namespace magnet_inspection
     public partial class Form1 : Form
     {
         private static HWindow hwindow; //全局窗口变量
+
+        //图像参数
+        HTuple ImageHeight = null, ImageWidth = null;
+
+        //图像变量
+        private HObject getImage            = new HObject(); //灰度图像
+        private HImage backgroundImage      = null;
+
+        //模板参数
+        HObject RectModel = new HObject();
+        HTuple ModelID = null;
+        HTuple Row_0, Column_0, Angle_0, Score_0 = null;
+
         private AlgorithmLib my_algorithmLib;
         private magnet_inspect_algorithm my_Algorithm;
         AlgorithmLib.InputLocateParam InputParam;
@@ -50,14 +63,23 @@ namespace magnet_inspection
             my_Algorithm = new magnet_inspect_algorithm();
             my_algorithmLib = new AlgorithmLib();
 
+            HOperatorSet.GenEmptyObj(out getImage);
+            RectModel = null;
             hwindow = hWindowControl1.HalconWindow;//初始化窗口变量
+
+
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.my_MouseWheel);//鼠标滑轮实现缩放
 
             button_Roi.Enabled = false;
-            trackBar_Threshold.Enabled = false;
             button_Threshold.Enabled = false;
             button_Input_Set.Enabled = false;
             button_Do.Enabled = false;
+            buttonStopAcqGrab.Enabled = false;
+
+            buttonAcqGrab.Enabled = true;
+
+            trackBar_Threshold.Enabled = false;
+
             textBox_Threshold.Enabled = false;
 
             FileInfo fileInfo = new FileInfo("InputLocateParam.txt");
@@ -84,9 +106,7 @@ namespace magnet_inspection
         
         //public class Form1_OutParam
         
-            public HTuple ImagePath = new HTuple();
-        
-        
+        public HTuple ImagePath = new HTuple();
         //打开图片
         public void button_Open_Picture_Click(object sender, EventArgs e)
         {
@@ -100,15 +120,15 @@ namespace magnet_inspection
             {
                 ImagePath = openFileDialog1.FileName;
                 HObject Image;
-                HTuple ImageHeight = null, ImageWidth = null;
                 HOperatorSet.GenEmptyObj(out Image);
                 hwindow = hWindowControl1.HalconWindow;
                 hwindow.ClearWindow();
                 HOperatorSet.ReadImage(out Image, ImagePath);
+                HOperatorSet.Rgb1ToGray(Image, out getImage);
                 //ImagePath_state = 1;
-                HOperatorSet.GetImageSize(Image, out ImageWidth, out ImageHeight);
+                HOperatorSet.GetImageSize(getImage, out ImageWidth, out ImageHeight);
                 HOperatorSet.SetPart(hwindow, 0, 0, ImageHeight - 1, ImageWidth - 1);
-                HOperatorSet.DispObj(Image, hwindow);
+                HOperatorSet.DispObj(getImage, hwindow);
 
                 button_Roi.Enabled = true;
                 trackBar_Threshold.Enabled = true;
@@ -122,9 +142,7 @@ namespace magnet_inspection
         //ROI区域设置
         public void button_Roi_Click(object sender, EventArgs e)
         {
-            HObject Image;
-            HOperatorSet.ReadImage(out Image, ImagePath);
-            HOperatorSet.DispObj(Image, hwindow);
+            HOperatorSet.DispObj(getImage, hwindow);
 
             HTuple ROI_row1, ROI_column1, ROI_row2, ROI_column2 = new HTuple();
             hWindowControl1.Focus();
@@ -162,19 +180,16 @@ namespace magnet_inspection
                     InputParamNode.InnerText = roi_row1.ToString();
                     //InputParamNode.InnerText = ROI_row1.ToString();
                 }
-
                 else if (InputParamNode.Name == "LeftPt")
                 {
                     InputParamNode.InnerText = roi_column1.ToString();
                     //InputParamNode.InnerText = ROI_column1.ToString();
                 }
-
                 else if (InputParamNode.Name == "BottomPt")
                 {
                     InputParamNode.InnerText = roi_row2.ToString();
                     //InputParamNode.InnerText = ROI_row2.ToString();
                 }
-
                 else if (InputParamNode.Name == "RightPt")
                 {
                     InputParamNode.InnerText = roi_column2.ToString();
@@ -192,8 +207,10 @@ namespace magnet_inspection
             Threshold = trackBar_Threshold.Value;
         }
 
+        //显示二值化图
         private void button_Threshold_Click(object sender, EventArgs e)
         {
+            Threshold = int.Parse(textBox_Threshold.Text);
             //更新xml文件阈值下限。
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("InputLocateParam.txt");
@@ -211,14 +228,158 @@ namespace magnet_inspection
             Threshold_From t_From = new Threshold_From(ImagePath, Threshold);
             t_From.Text = "二值化图像";
             t_From.ShowDialog();
-
-
         }
 
+        //打开输入设置参数界面
         private void button_Input_Set_Click(object sender, EventArgs e)
         {
             Form_InputParam Ipt_From = new Form_InputParam();
             Ipt_From.ShowDialog();
+        }
+
+        //模板选取
+        private void buttonSetModel_Click(object sender, EventArgs e)
+        {
+            HTuple RectModelRow, RectModelColumn, RectModelPhi, RectModelL1, RectModelRowL2 = null;
+
+            this.tabControl1.SelectedIndex = 0;
+            hWindowControl1.HalconWindow.ClearWindow();
+            HOperatorSet.DispObj(getImage, hwindow);
+            hWindowControl1.Focus();
+
+            hWindowControl1.HalconWindow.SetColor("yellow");
+            HOperatorSet.DrawRectangle2Mod(hwindow, 240, 320, 0, 90, 90, out RectModelRow, out RectModelColumn, 
+                                                                         out RectModelPhi, out RectModelL1, out RectModelRowL2);
+            HOperatorSet.GenRectangle2(out RectModel, RectModelRow, RectModelColumn, RectModelPhi, RectModelL1, RectModelRowL2);
+
+            hWindowControl1.HalconWindow.SetColor("green");
+            HOperatorSet.SetDraw(hWindowControl1.HalconWindow, "margin");
+            hWindowControl1.HalconWindow.DispObj(RectModel);
+
+        }
+
+        //创建模板
+        private void buttonCreateModel_Click(object sender, EventArgs e)
+        {
+            HObject ModelImage, ModelImages, ModelRegion, ModelRegions, BlackImage;
+            HOperatorSet.GenEmptyObj(out ModelImage);
+
+            if (RectModel != null)
+            {
+                this.tabControl1.SelectedIndex = 0;
+                hWindowControl1.HalconWindow.ClearWindow();
+                HOperatorSet.DispObj(getImage, hwindow);
+
+                Threshold = int.Parse(textBox_Threshold.Text);
+                HOperatorSet.ReduceDomain(getImage, RectModel, out ModelImage);
+                HOperatorSet.Threshold(ModelImage, out ModelRegion, Threshold, 255);
+                HOperatorSet.ReduceDomain(ModelImage, ModelRegion, out ModelImage);
+                HOperatorSet.GenImageConst(out BlackImage, "byte", ImageWidth, ImageHeight);
+                HOperatorSet.AddImage(BlackImage, ModelImage,out ModelImage, 1, 0);
+                HOperatorSet.ReduceDomain(ModelImage, RectModel, out ModelImage);
+
+                HOperatorSet.InspectShapeModel(ModelImage, out ModelImages, out ModelRegions, 4, 20);
+                HOperatorSet.DispObj(ModelRegions, hwindow);
+                HOperatorSet.CreateShapeModel(ModelImage, "auto", 0, (new HTuple(360)).TupleRad(), "auto", "auto", "use_polarity", "auto", "auto", out ModelID);
+
+                GC.Collect();
+            }
+            else
+            {
+                MessageBox.Show("请选取模板区域！");
+                return;
+            }
+
+        }
+
+        //模板模拟定位
+        private void buttonTestModel_Click(object sender, EventArgs e)
+        {
+            int TopPt = 0, LeftPt = 0, BottomPt = 0, RightPt = 0;
+            HObject ROI = null, SearchImage = null;
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load("InputLocateParam.txt");
+                XmlNode rootNode = xmlDoc.FirstChild;
+                XmlNodeList InputParamNodeList = rootNode.ChildNodes;
+                foreach (XmlNode InputParamNode in InputParamNodeList)
+                {
+                    if (InputParamNode.Name == "TopPt")
+                    {
+                         TopPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "LeftPt")
+                    {
+                         LeftPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "BottomPt")
+                    {
+                         BottomPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "RightPt")
+                    {
+                         RightPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                }
+                if (ModelID != null)
+                {
+                    this.tabControl1.SelectedIndex = 0;
+                    hWindowControl1.HalconWindow.ClearWindow();
+                    HOperatorSet.DispObj(getImage, hwindow);
+                    HOperatorSet.GenRectangle1(out ROI, (HTuple)TopPt, (HTuple)LeftPt, (HTuple)BottomPt, (HTuple)RightPt);
+                    HOperatorSet.ReduceDomain(getImage, ROI, out SearchImage);
+                    HOperatorSet.FindShapeModel(SearchImage, ModelID, 0, (new HTuple(360)), 0.5, 1, 0.9, "least_squares", 0, 0.9, 
+                                                out Row_0, out Column_0, out Angle_0, out Score_0);
+
+                    ModelRow_textBox.Text = Row_0.TupleString("3.2f");
+                    ModelColumn_textBox.Text = Column_0.TupleString("3.2f");
+                    Angle_0 = Angle_0.TupleDeg();
+                    ModelAngle_textBox.Text = Angle_0.TupleString("3.2f") + "°";
+
+                    GC.Collect();
+                }
+                else
+                {
+                    MessageBox.Show("请先创建模板！");
+                    return;
+                }
+            }
+            catch (HalconException ex)
+            {
+                string str, expMsg;
+                HTuple expTpl;
+                ex.ToHTuple(out expTpl);
+                expMsg = expTpl[1].S;
+                str = "Halcon Exception:";
+                str += expMsg;
+                MessageBox.Show(str);
+                return;
+            }
+        }
+
+        //保存模板到本地
+        private void buttonSaveModel_Click(object sender, EventArgs e)
+        {
+            if (ModelID != null)
+            { 
+                if (File.Exists(Directory.GetCurrentDirectory() + @"/MagnetModel.shm"))
+                {
+                    File.Delete(Directory.GetCurrentDirectory() + @"/MagnetModel.shm");
+                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MagnetModel.shm");
+                    MessageBox.Show("保存模板成功！");
+                }
+                else
+                {
+                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MagnetModel.shm");
+                    MessageBox.Show("保存模板成功！");
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先创建模板！");
+                return;
+            }
         }
     }
 }
