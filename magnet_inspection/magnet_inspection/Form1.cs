@@ -23,14 +23,27 @@ namespace magnet_inspection
         //图像参数
         HTuple ImageHeight = null, ImageWidth = null;
 
+
         //图像变量
         private HObject getImage            = new HObject(); //灰度图像
         private HImage backgroundImage      = null;
+
 
         //模板参数
         HObject RectModel = new HObject();
         HTuple ModelID = null;
         HTuple Row_0, Column_0, Angle_0, Score_0 = null;
+
+
+        //测量工具参数
+        //画直线1
+        HTuple L1StartRowDraw = null, L1StartColumnDraw = null, L1EndRowDraw = null, L1EndColumnDraw = null;
+        //画直线2
+        HTuple L2StartRowDraw = null, L2StartColumnDraw = null, L2EndRowDraw = null, L2EndColumnDraw = null;
+        //画圆1
+        HTuple Circle1RowDraw = null, Circle1ColumnDraw = null, Circle1RadiusDraw = null;
+        //画圆2
+        HTuple Circle2RowDraw = null, Circle2ColumnDraw = null, Circle2RadiusDraw = null;
 
         private AlgorithmLib my_algorithmLib;
         private magnet_inspect_algorithm my_Algorithm;
@@ -380,6 +393,28 @@ namespace magnet_inspection
                 MessageBox.Show("请先创建模板！");
                 return;
             }
+        }
+
+        //测量直线1
+        private void buttonDrawLine1_Click(object sender, EventArgs e)
+        {
+            this.tabControl1.SelectedIndex = 0;
+            hWindowControl1.HalconWindow.ClearWindow();
+            HOperatorSet.DispObj(getImage, hwindow);
+            hWindowControl1.Focus();
+            HOperatorSet.SetLineWidth(hwindow, 2);
+            HOperatorSet.SetDraw(hwindow, "margin");
+
+            HObject Line1;
+            HOperatorSet.GenEmptyObj(out Line1);
+            Line1.Dispose();
+
+            HOperatorSet.SetColor(hwindow, "yellow");
+            HOperatorSet.DrawLineMod(hwindow, ImageHeight/2 , ImageWidth/2 - 50, ImageHeight / 2 , ImageWidth / 2 + 50, 
+                                            out L1StartRowDraw, out L1StartColumnDraw, out L1EndRowDraw, out L1EndColumnDraw);
+            HOperatorSet.SetColor(hwindow, "green");
+            HOperatorSet.GenRegionLine(out Line1, L1StartRowDraw, L1StartColumnDraw, L1EndRowDraw, L1EndColumnDraw);
+            HOperatorSet.DispObj(Line1, hwindow);
         }
     }
 }

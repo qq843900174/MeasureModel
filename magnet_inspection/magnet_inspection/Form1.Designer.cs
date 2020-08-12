@@ -407,6 +407,7 @@
             this.buttonDrawLine1.TabIndex = 32;
             this.buttonDrawLine1.Text = "测量直线1";
             this.buttonDrawLine1.UseVisualStyleBackColor = false;
+            this.buttonDrawLine1.Click += new System.EventHandler(this.buttonDrawLine1_Click);
             // 
             // buttonAcqGrab
             // 
