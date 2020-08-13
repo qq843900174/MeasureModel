@@ -52,24 +52,166 @@ namespace magnet_inspection
         AlgorithmLib.InputLocateParam InputParam;
         AlgorithmLib.OutputLocateParam OutputParam;
 
-        #region 限制鼠标在图像窗口内进行缩放图像操作
-        /// 限制鼠标在图像窗口内进行缩放图像操作
+        #region 窗体中图像的操作：缩放、平移、适应窗口
+        /// 窗体中图像的操作：缩放、平移、适应窗口
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void my_MouseWheel(object sender, MouseEventArgs e)
+        private bool m_IsMagnify = false;
+        private double m_Factor = 1.0;
+        private int m_MouseX0 = 0;
+        private int m_MouseY0 = 0;
+        private int m_MouseX1 = 0;
+        private int m_MouseY1 = 0;
+        private void Image_MouseWheel(object sender, MouseEventArgs e)
         {
-            System.Drawing.Point pt = this.Location;
-            int leftBorder = hWindowControl1.Location.X;
-            int rightBorder = hWindowControl1.Location.X + hWindowControl1.Size.Width;
-            int topBorder = hWindowControl1.Location.Y;
-            int bottomBorder = hWindowControl1.Location.Y + hWindowControl1.Size.Height;
-            if (e.X > leftBorder && e.X < rightBorder && e.Y > topBorder && e.Y < bottomBorder)
+            if (!hWindowControl1.ClientRectangle.Contains(e.Location))
             {
-                MouseEventArgs newe = new MouseEventArgs(e.Button, e.Clicks,
-                                                     e.X - pt.X, e.Y - pt.Y, e.Delta);
-                //hWindowControl1.HMouseWheel(sender);
+                return;
             }
+
+            if (getImage.CountObj() <= 0)
+            {
+                return;
+            }
+
+            //Min--0.1 Max--2.0
+            if (e.Delta > 0)//Up
+            {
+                m_Factor += 0.1;
+            }
+            else//Down
+            {
+                m_Factor -= 0.1;
+            }
+
+            if (m_Factor < 0.1)
+            {
+                m_Factor = 0.1;
+            }
+            if (m_Factor > 2.0)
+            {
+                m_Factor = 2.0;
+            }
+
+            HTuple ImgW = 0, ImgH = 0, ScaledW = 0, ScaledH = 0;
+            HOperatorSet.GetImageSize(getImage, out ImgW, out ImgH);
+            ScaledW = ImgW * m_Factor;
+            ScaledH = ImgH * m_Factor;
+            if (ScaledW > hWindowControl1.Size.Width || ScaledH > hWindowControl1.Size.Height)
+            {
+                m_IsMagnify = true;
+            }
+            else
+            {
+                m_IsMagnify = false;
+            }
+
+            hWindowControl1.HalconWindow.ClearWindow();
+            if (!m_IsMagnify)
+            {
+                SetPart();
+            }
+
+            DispZoomImage(m_Factor, getImage);
+
+            return;
+        }
+        //适应窗口
+        private void SetPart()
+        {
+            int row, col;
+
+            int w = hWindowControl1.Size.Width;
+            int h = hWindowControl1.Size.Height;
+
+            col = int.Parse(w.ToString()) ;
+            row = int.Parse(h.ToString()) ;
+            hWindowControl1.HalconWindow.SetPart(0, 0, row-1, col-1);
+            hWindowControl1.HalconWindow.SetLineWidth(1.0);
+
+            return;
+        }
+        //缩放图像
+        private void DispZoomImage(double Factor, HObject SrcObj)
+        {
+            HObject DrawObj;
+
+            if (Factor <= 0.0 || Factor >= 4.0)
+            {
+                return;
+            }
+
+            if (SrcObj.CountObj() <= 0)
+            {
+                return;
+            }
+
+            HOperatorSet.ZoomImageFactor(SrcObj, out DrawObj, Factor, Factor, "bicubic");
+
+            hWindowControl1.HalconWindow.DispObj(DrawObj);
+
+            return;
+        }
+        //鼠标中键点下
+        private void Image_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!hWindowControl1.ClientRectangle.Contains(e.Location))
+            {
+                return;
+            }
+            if (e.Button == MouseButtons.Middle)
+            {
+                m_MouseX0 = e.Location.Y;
+                m_MouseY0 = e.Location.X;
+            }
+
+            return;
+        }
+
+        private void Image_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (!hWindowControl1.ClientRectangle.Contains(e.Location))
+            {
+                return;
+            }
+            if (e.Button == MouseButtons.Middle)
+            {
+                int row1 = 0, col1 = 0, row2 = 0, col2 = 0;
+                double dbRowMove = 0.0, dbColMove = 0.0;
+
+                if (m_MouseX0 == 0 || m_MouseY0 == 0)
+                {
+                    return;
+                }
+
+                m_MouseX1 = e.Location.Y;
+                m_MouseY1 = e.Location.X;
+                dbRowMove = m_MouseX0 - m_MouseX1;//计算光标在X轴拖动的距离
+                dbColMove = m_MouseY0 - m_MouseY1;//计算光标在Y轴拖动的距离
+
+                hWindowControl1.HalconWindow.GetPart(out row1, out col1, out row2, out col2);//计算HWindow控件在当前状态下显示图像的位置
+                hWindowControl1.HalconWindow.SetPart((int)(row1 + dbRowMove), (int)(col1 + dbColMove),
+                    (int)(row2 + dbRowMove), (int)(col2 + dbColMove));//根据拖动距离调整HWindows控件显示图像的位置
+
+                hWindowControl1.HalconWindow.ClearWindow();
+                DispZoomImage(m_Factor, getImage);
+            }
+
+            return;
+        }
+
+        private void buttonAdapt_Click(object sender, EventArgs e)
+        {
+            if (getImage.CountObj() <= 0)
+            {
+                return;
+            }
+            hWindowControl1.HalconWindow.ClearWindow();
+            HOperatorSet.GetImageSize(getImage, out ImageWidth, out ImageHeight);
+            HOperatorSet.SetPart(hwindow, 0, 0, ImageHeight - 1, ImageWidth - 1);
+            HOperatorSet.DispObj(getImage, hwindow);
+            return;
         }
         #endregion
         public Form1()
@@ -83,7 +225,9 @@ namespace magnet_inspection
             hwindow = hWindowControl1.HalconWindow;//初始化窗口变量
 
 
-            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.my_MouseWheel);//鼠标滑轮实现缩放
+            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Image_MouseWheel);//鼠标滑轮实现缩放
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Image_MouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Image_MouseUp);
 
             button_Roi.Enabled = false;
             button_Threshold.Enabled = false;

@@ -70,6 +70,7 @@
             this.buttonStopAcqGrab = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxResultLog = new System.Windows.Forms.TextBox();
+            this.buttonAdapt = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_Threshold)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -91,13 +92,13 @@
             // 
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 572);
+            this.splitter1.Size = new System.Drawing.Size(3, 579);
             this.splitter1.TabIndex = 2;
             this.splitter1.TabStop = false;
             // 
             // trackBar_Threshold
             // 
-            this.trackBar_Threshold.Location = new System.Drawing.Point(116, 515);
+            this.trackBar_Threshold.Location = new System.Drawing.Point(104, 518);
             this.trackBar_Threshold.Maximum = 255;
             this.trackBar_Threshold.Name = "trackBar_Threshold";
             this.trackBar_Threshold.Size = new System.Drawing.Size(104, 56);
@@ -117,7 +118,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 515);
+            this.label1.Location = new System.Drawing.Point(1, 537);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 15);
             this.label1.TabIndex = 6;
@@ -125,7 +126,7 @@
             // 
             // textBox_Threshold
             // 
-            this.textBox_Threshold.Location = new System.Drawing.Point(238, 515);
+            this.textBox_Threshold.Location = new System.Drawing.Point(227, 527);
             this.textBox_Threshold.Name = "textBox_Threshold";
             this.textBox_Threshold.Size = new System.Drawing.Size(38, 25);
             this.textBox_Threshold.TabIndex = 7;
@@ -171,6 +172,9 @@
             this.hWindowControl1.Size = new System.Drawing.Size(640, 480);
             this.hWindowControl1.TabIndex = 13;
             this.hWindowControl1.WindowSize = new System.Drawing.Size(640, 480);
+
+            this.hWindowControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Image_MouseDown);
+            this.hWindowControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Image_MouseUp);
             // 
             // tabControl1
             // 
@@ -531,11 +535,22 @@
             this.textBoxResultLog.Size = new System.Drawing.Size(251, 151);
             this.textBoxResultLog.TabIndex = 18;
             // 
+            // buttonAdapt
+            // 
+            this.buttonAdapt.Location = new System.Drawing.Point(4, 508);
+            this.buttonAdapt.Name = "buttonAdapt";
+            this.buttonAdapt.Size = new System.Drawing.Size(94, 26);
+            this.buttonAdapt.TabIndex = 14;
+            this.buttonAdapt.Text = "适应窗口";
+            this.buttonAdapt.UseVisualStyleBackColor = true;
+            this.buttonAdapt.Click += new System.EventHandler(this.buttonAdapt_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(929, 572);
+            this.ClientSize = new System.Drawing.Size(929, 579);
+            this.Controls.Add(this.buttonAdapt);
             this.Controls.Add(this.textBoxResultLog);
             this.Controls.Add(this.ModelAngle_textBox);
             this.Controls.Add(this.label3);
@@ -613,6 +628,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxResultLog;
         private System.Windows.Forms.Button buttonClearMetrology;
+        private System.Windows.Forms.Button buttonAdapt;
     }
 }
 
