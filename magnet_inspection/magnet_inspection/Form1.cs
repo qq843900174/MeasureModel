@@ -799,7 +799,7 @@ namespace magnet_inspection
                     ResultContour.Dispose();
                     HOperatorSet.GetMetrologyObjectResultContour(out ResultContour, MetrologyHandle, "all", "all", 1);
 
-                    HOperatorSet.SetColor(hwindow, "green");
+                    HOperatorSet.SetColor(hwindow, "blue");
                     HOperatorSet.DispObj(ResultContour, hwindow);
 
                     GC.Collect();
@@ -831,12 +831,12 @@ namespace magnet_inspection
                 if (File.Exists(Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr"))
                 {
                     File.Delete(Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
-                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+                    HOperatorSet.WriteMetrologyModel(MetrologyHandle, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
                     MessageBox.Show("保存测量工具成功！");
                 }
                 else
                 {
-                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+                    HOperatorSet.WriteMetrologyModel(MetrologyHandle, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
                     MessageBox.Show("保存测量工具成功！");
                 }
             }
