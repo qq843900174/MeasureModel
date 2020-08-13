@@ -44,6 +44,8 @@ namespace magnet_inspection
         HTuple Circle1RowDraw = null, Circle1ColumnDraw = null, Circle1RadiusDraw = null;
         //画圆2
         HTuple Circle2RowDraw = null, Circle2ColumnDraw = null, Circle2RadiusDraw = null;
+        //句柄模型
+        HTuple MetrologyHandle = null;
 
         private AlgorithmLib my_algorithmLib;
         private magnet_inspect_algorithm my_Algorithm;
@@ -119,6 +121,7 @@ namespace magnet_inspection
         //public class Form1_OutParam
         
         public HTuple ImagePath = new HTuple();
+
         //打开图片
         public void button_Open_Picture_Click(object sender, EventArgs e)
         {
@@ -213,6 +216,7 @@ namespace magnet_inspection
 
         //二值化阈值设置
         public int Threshold = new int();
+
         private void trackBar_Threshold_Scroll(object sender, EventArgs e)
         {
             textBox_Threshold.Text = trackBar_Threshold.Value.ToString();
@@ -480,6 +484,223 @@ namespace magnet_inspection
             HOperatorSet.SetColor(hwindow, "green");
             HOperatorSet.GenCircle(out Circle2, Circle2RowDraw, Circle2ColumnDraw, Circle2RadiusDraw);
             HOperatorSet.DispObj(Circle2, hwindow);
+        }
+
+        //创建测量工具
+        private void buttonCreateMetrology_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (L1StartRowDraw == null || L1StartColumnDraw == null || L1EndRowDraw == null || L1EndColumnDraw == null )
+                {
+                    MessageBox.Show("请先画直线1");
+                    return;
+                }
+                else if (L2StartRowDraw == null || L2StartColumnDraw == null || L2EndRowDraw == null || L2EndColumnDraw == null )
+                {
+                    MessageBox.Show("请先画直线2");
+                    return;
+                }
+                else if (Circle1RowDraw == null || Circle1ColumnDraw == null || Circle1RadiusDraw == null )
+                {
+                    MessageBox.Show("请先画圆1");
+                    return;
+                }
+                else if (Circle2RowDraw == null || Circle2ColumnDraw == null || Circle2RadiusDraw == null )
+                {
+                    MessageBox.Show("请先画圆2");
+                    return;
+                }
+
+                //创建测量模型
+                HOperatorSet.CreateMetrologyModel(out MetrologyHandle);
+
+                //设置测量对象的图像大小
+                HOperatorSet.SetMetrologyModelImageSize(MetrologyHandle, ImageWidth, ImageHeight);
+
+                //添加测量直线对象到测量模型中
+                HTuple Circle1Index = null, Circle2Index = null, Line1Index = null, Line2Index = null;
+                HTuple Circle1Param = null, Circle2Param = null, Line1Param = null, Line2Param = null;
+
+                Line1Param = new HTuple();
+                Line1Param = Line1Param.TupleConcat(L1StartRowDraw);
+                Line1Param = Line1Param.TupleConcat(L1StartColumnDraw);
+                Line1Param = Line1Param.TupleConcat(L1EndRowDraw);
+                Line1Param = Line1Param.TupleConcat(L1EndColumnDraw);
+                Line2Param = new HTuple();
+                Line2Param = Line2Param.TupleConcat(L2StartRowDraw);
+                Line2Param = Line2Param.TupleConcat(L2StartColumnDraw);
+                Line2Param = Line2Param.TupleConcat(L2EndRowDraw);
+                Line2Param = Line2Param.TupleConcat(L2EndColumnDraw);
+                Circle1Param = new HTuple();
+                Circle1Param = Circle1Param.TupleConcat(Circle1RowDraw);
+                Circle1Param = Circle1Param.TupleConcat(Circle1ColumnDraw);
+                Circle1Param = Circle1Param.TupleConcat(Circle1RadiusDraw);
+                Circle2Param = new HTuple();
+                Circle2Param = Circle2Param.TupleConcat(Circle2RowDraw);
+                Circle2Param = Circle2Param.TupleConcat(Circle2ColumnDraw);
+                Circle2Param = Circle2Param.TupleConcat(Circle2RadiusDraw);
+
+                HOperatorSet.AddMetrologyObjectGeneric(MetrologyHandle, "circle", Circle1Param, 20, 5, 1, 30, new HTuple(), new HTuple(), out Circle1Index);
+                HOperatorSet.AddMetrologyObjectGeneric(MetrologyHandle, "circle", Circle2Param, 20, 5, 1, 30, new HTuple(), new HTuple(), out Circle2Index);
+                HOperatorSet.AddMetrologyObjectGeneric(MetrologyHandle, "line", Line1Param, 20, 5, 1, 30, new HTuple(), new HTuple(), out Line1Index);
+                HOperatorSet.AddMetrologyObjectGeneric(MetrologyHandle, "line", Line2Param, 20, 5, 1, 30, new HTuple(), new HTuple(), out Line2Index);
+
+
+
+                //获取测量模型里的模型轮廓
+                HObject ModelContour;
+                HOperatorSet.GenEmptyObj(out ModelContour);
+                ModelContour.Dispose();
+                HOperatorSet.GetMetrologyObjectModelContour(out ModelContour, MetrologyHandle, "all", 1.5);
+
+                //获取测量模型里的测量区域
+                HObject MeasureContour;
+                HOperatorSet.GenEmptyObj(out MeasureContour);
+                MeasureContour.Dispose();
+
+                HTuple Row = null, Column = null;
+                HOperatorSet.GetMetrologyObjectMeasures(out MeasureContour, MetrologyHandle,
+                                                       ((((Circle1Index.TupleConcat(Circle2Index))).TupleConcat(Line1Index))).TupleConcat(Line2Index) ,
+                                                       "all", out Row, out Column);
+
+
+                //显示图像及轮廓
+                this.tabControl1.SelectedIndex = 0;
+                hWindowControl1.HalconWindow.ClearWindow();
+                HOperatorSet.DispObj(getImage, hwindow);
+                HOperatorSet.DispObj(ModelContour, hwindow);
+                HOperatorSet.DispObj(MeasureContour, hwindow);
+
+                //* 设置测量对象的参考坐标系原点在模板坐标位置
+                /*
+                HTuple TempleteRow = null, TempleteColumn = null, TempleteAngle = null;
+                TempleteRow = double.Parse(this.ModelRow_textBox.Text);
+                TempleteColumn = double.Parse(this.ModelColumn_textBox.Text);
+                TempleteAngle = double.Parse(this.ModelAngle_textBox.Text);
+
+                HOperatorSet.SetMetrologyModelParam(MetrologyHandle, "reference_system", 
+                                                   ((TempleteRow.TupleConcat(TempleteColumn))).TupleConcat(TempleteAngle));
+                */
+                //HOperatorSet.WriteMetrologyModel(MetrologyHandle, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+
+            }
+            catch (HalconException hex)
+            {
+                MessageBox.Show(hex.GetErrorMessage(), "HALCON Exception:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Windows Exception:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        //清空测量工具
+        private void buttonClearMetrology_Click(object sender, EventArgs e)
+        {
+            hWindowControl1.HalconWindow.ClearWindow();
+            HOperatorSet.DispObj(getImage, hwindow);
+
+            L1StartRowDraw = null; L1StartColumnDraw = null; L1EndRowDraw = null; L1EndColumnDraw = null;
+            L2StartRowDraw = null; L2StartColumnDraw = null; L2EndRowDraw = null; L2EndColumnDraw = null;
+            Circle1RowDraw = null; Circle1ColumnDraw = null; Circle1RadiusDraw = null;
+            Circle2RowDraw = null; Circle2ColumnDraw = null; Circle2RadiusDraw = null;
+        }
+
+        //测量工具模拟测量
+        private void buttonTestMetrology_Click(object sender, EventArgs e)
+        {
+            int TopPt = 0, LeftPt = 0, BottomPt = 0, RightPt = 0;
+            HObject ROI = null, SearchImage = null, ResultContour = null;
+            HTuple Parameter = new HTuple();
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load("InputLocateParam.txt");
+                XmlNode rootNode = xmlDoc.FirstChild;
+                XmlNodeList InputParamNodeList = rootNode.ChildNodes;
+                foreach (XmlNode InputParamNode in InputParamNodeList)
+                {
+                    if (InputParamNode.Name == "TopPt")
+                    {
+                        TopPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "LeftPt")
+                    {
+                        LeftPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "BottomPt")
+                    {
+                        BottomPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                    else if (InputParamNode.Name == "RightPt")
+                    {
+                        RightPt = Int32.Parse(InputParamNode.InnerText);
+                    }
+                }
+                if (MetrologyHandle != null)
+                {
+                    this.tabControl1.SelectedIndex = 0;
+                    hWindowControl1.HalconWindow.ClearWindow();
+                    HOperatorSet.DispObj(getImage, hwindow);
+                    HOperatorSet.GenRectangle1(out ROI, (HTuple)TopPt, (HTuple)LeftPt, (HTuple)BottomPt, (HTuple)RightPt);
+                    HOperatorSet.ReduceDomain(getImage, ROI, out SearchImage);
+                    HOperatorSet.ApplyMetrologyModel(SearchImage, MetrologyHandle);
+
+                    HOperatorSet.GetMetrologyObjectResult(MetrologyHandle, "all", "all", "result_type", "all_param", out Parameter);
+
+                    HOperatorSet.GenEmptyObj(out ResultContour);
+                    ResultContour.Dispose();
+                    HOperatorSet.GetMetrologyObjectResultContour(out ResultContour, MetrologyHandle, "all", "all", 1);
+
+                    HOperatorSet.SetColor(hwindow, "green");
+                    HOperatorSet.DispObj(ResultContour, hwindow);
+
+                    GC.Collect();
+                }
+                else
+                {
+                    MessageBox.Show("请先创建测量工具！");
+                    return;
+                }
+            }
+            catch (HalconException ex)
+            {
+                string str, expMsg;
+                HTuple expTpl;
+                ex.ToHTuple(out expTpl);
+                expMsg = expTpl[1].S;
+                str = "Halcon Exception:";
+                str += expMsg;
+                MessageBox.Show(str);
+                return;
+            }
+        }
+
+        //保存测量工具到本地
+        private void buttonSaveMetrology_Click(object sender, EventArgs e)
+        {
+            if (MetrologyHandle != null)
+            {
+                if (File.Exists(Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr"))
+                {
+                    File.Delete(Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+                    MessageBox.Show("保存测量工具成功！");
+                }
+                else
+                {
+                    HOperatorSet.WriteShapeModel(ModelID, Directory.GetCurrentDirectory() + @"/MetrologyHandle.mtr");
+                    MessageBox.Show("保存测量工具成功！");
+                }
+            }
+            else
+            {
+                MessageBox.Show("请先创建模板！");
+                return;
+            }
         }
     }
 }

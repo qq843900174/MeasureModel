@@ -47,6 +47,7 @@
             this.buttonCreateModel = new System.Windows.Forms.Button();
             this.buttonSetModel = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.buttonClearMetrology = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -56,7 +57,7 @@
             this.buttonDrawCircle1 = new System.Windows.Forms.Button();
             this.Metrology_checkBox = new System.Windows.Forms.CheckBox();
             this.buttonTestMetrology = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.buttonSaveMetrology = new System.Windows.Forms.Button();
             this.buttonCreateMetrology = new System.Windows.Forms.Button();
             this.buttonDrawLine1 = new System.Windows.Forms.Button();
             this.ModelAngle_textBox = new System.Windows.Forms.TextBox();
@@ -269,6 +270,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.buttonClearMetrology);
             this.tabPage3.Controls.Add(this.button1);
             this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Controls.Add(this.button3);
@@ -278,7 +280,7 @@
             this.tabPage3.Controls.Add(this.buttonDrawCircle1);
             this.tabPage3.Controls.Add(this.Metrology_checkBox);
             this.tabPage3.Controls.Add(this.buttonTestMetrology);
-            this.tabPage3.Controls.Add(this.button6);
+            this.tabPage3.Controls.Add(this.buttonSaveMetrology);
             this.tabPage3.Controls.Add(this.buttonCreateMetrology);
             this.tabPage3.Controls.Add(this.buttonDrawLine1);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -287,6 +289,18 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "创建测量工具";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // buttonClearMetrology
+            // 
+            this.buttonClearMetrology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.buttonClearMetrology.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.buttonClearMetrology.Location = new System.Drawing.Point(244, 418);
+            this.buttonClearMetrology.Name = "buttonClearMetrology";
+            this.buttonClearMetrology.Size = new System.Drawing.Size(179, 58);
+            this.buttonClearMetrology.TabIndex = 50;
+            this.buttonClearMetrology.Text = "清空测量工具";
+            this.buttonClearMetrology.UseVisualStyleBackColor = false;
+            this.buttonClearMetrology.Click += new System.EventHandler(this.buttonClearMetrology_Click);
             // 
             // button1
             // 
@@ -383,23 +397,25 @@
             // 
             this.buttonTestMetrology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
             this.buttonTestMetrology.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonTestMetrology.Location = new System.Drawing.Point(37, 418);
+            this.buttonTestMetrology.Location = new System.Drawing.Point(23, 418);
             this.buttonTestMetrology.Name = "buttonTestMetrology";
             this.buttonTestMetrology.Size = new System.Drawing.Size(179, 58);
             this.buttonTestMetrology.TabIndex = 35;
             this.buttonTestMetrology.Text = "模拟测量";
             this.buttonTestMetrology.UseVisualStyleBackColor = false;
+            this.buttonTestMetrology.Click += new System.EventHandler(this.buttonTestMetrology_Click);
             // 
-            // button6
+            // buttonSaveMetrology
             // 
-            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
-            this.button6.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.button6.Location = new System.Drawing.Point(458, 418);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(179, 58);
-            this.button6.TabIndex = 34;
-            this.button6.Text = "保存测量工具";
-            this.button6.UseVisualStyleBackColor = false;
+            this.buttonSaveMetrology.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(196)))));
+            this.buttonSaveMetrology.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.buttonSaveMetrology.Location = new System.Drawing.Point(458, 418);
+            this.buttonSaveMetrology.Name = "buttonSaveMetrology";
+            this.buttonSaveMetrology.Size = new System.Drawing.Size(179, 58);
+            this.buttonSaveMetrology.TabIndex = 34;
+            this.buttonSaveMetrology.Text = "保存测量工具";
+            this.buttonSaveMetrology.UseVisualStyleBackColor = false;
+            this.buttonSaveMetrology.Click += new System.EventHandler(this.buttonSaveMetrology_Click);
             // 
             // buttonCreateMetrology
             // 
@@ -411,6 +427,7 @@
             this.buttonCreateMetrology.TabIndex = 33;
             this.buttonCreateMetrology.Text = "创建测量工具";
             this.buttonCreateMetrology.UseVisualStyleBackColor = false;
+            this.buttonCreateMetrology.Click += new System.EventHandler(this.buttonCreateMetrology_Click);
             // 
             // buttonDrawLine1
             // 
@@ -581,7 +598,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox Metrology_checkBox;
         private System.Windows.Forms.Button buttonTestMetrology;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button buttonSaveMetrology;
         private System.Windows.Forms.Button buttonCreateMetrology;
         private System.Windows.Forms.Button buttonDrawLine1;
         private System.Windows.Forms.Button buttonAcqGrab;
@@ -595,6 +612,7 @@
         private System.Windows.Forms.Button buttonDrawLine2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxResultLog;
+        private System.Windows.Forms.Button buttonClearMetrology;
     }
 }
 
